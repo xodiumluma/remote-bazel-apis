@@ -1,0 +1,10 @@
+# omit backups
+*~
+# omit vim swaps
+.*.sw*
+# omit bazel dirs
+/bazel-bin
+/bazel-genfiles
+/bazel-out
+/bazel-remote-apis
+/bazel-testlogs
