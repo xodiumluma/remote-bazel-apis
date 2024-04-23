@@ -29,3 +29,58 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
 
+# We ned this for native gRPC
+http_archive(
+  name = "com_github_grpc_grpc",
+  sha256 = "b391a327429279f6f29b9ae7e5317cd80d5e9d49cc100e6d682221af73d984a6",
+  strip_prefix = "grpc-93e8830070e9afcbaa992c75817009ee3f4b63a0",  # v1.24.3 with fixes
+  urls = ["https://github.com/grpc/grpc/archive/93e8830070e9afcbaa992c75817009ee3f4b63a0.zip"],
+)
+
+# retrieve all gRPC deps
+load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+
+grpc_deps()
+
+# More gRPC deps; grpc_extra_deps doesn't work as is
+load("@upb//bazel:workspace_deps.bzl", "upb_deps")
+load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
+load("@build_bazel_apple_support//lib:repositories.bzl", "apple_support_dependencies")
+
+upb_deps()
+apple_rules_dependencies()
+apple_support_dependencies()
+
+load("@upb//bazel:repository_defs.bzl", "bazel_version_repository")
+
+bazel_version_repository(
+  name = "bazel_version",
+)
+
+bind(
+  name = "grpc_cpp_plugin",
+  actual = "@com_github_grpc_grpc//:grpc_cpp_plugin",
+)
+
+bind(
+  name = "grpc_lib",
+  actual = "@com_github_grpc_grpc//:grpc++",
+)
+
+load("//:remote_apis_deps.bzl", "remote_apis_go_deps")
+
+remote_apis_go_deps()
+
+# This is needed for googleapis protos
+http_archive(
+  name = "googleapis",
+  sha256 = "b28c13e99001664eac5f1fb81b44d912d19fbc041e30772263251da131f6573c",
+  strip_prefix = "googleapis-bb964feba5980ed70c9fb8f84fe6e86694df65b0",
+  urls = ["https://github.com/googleapis/googleapis/archive/bb964feba5980ed70c9fb8f84fe6e86694df65b0.zip"],
+)
+
+load("@googleapis//:repository_rules.bzl", "switched_rules_by_language")
+
+switched_rules_by_language(
+  name = "com_google_googleapis_imports",
+)
