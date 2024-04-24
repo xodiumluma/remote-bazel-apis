@@ -14,3 +14,15 @@ option java_multiple_files = true;
 option java_outer_classname = "RemoteAssetProto";
 option java_package = "build.bazel.remote.asset.v1";
 option obj_class_prefix = "RA";
+
+// Remote Asset API maps from URL + Qualifiers to Digests
+// Same content can be referred to from several URIs, e.g. same tarball is available from multiple mirrors and accessible via multiple URLs
+// The URLs, when used, should refer to actual content - Fetch service implementations might want to retrieve the content directly
+// E.g. git repo's active branch (HEAD) can be referred to as: 
+//    uri: https://github.com/bazelbuild/remote-apis.git
+// URNs can be used to refer to specific contnet, such as using a uuid namespace id:
+//    urn:uuid:<id>
+// This is applicable to content that has been uploaded via the Push implementation
+// The URN contains an agreed-upon key but doesn't mean anything else
+//
+// Service implementations can mix and match URLs and URNs, or just specify URLs, or only URNs for Push-uploaded content - no hard and fast rule
