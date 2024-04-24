@@ -28,4 +28,17 @@ option obj_class_prefix = "RA";
 // Service implementations can mix and match URLs and URNs, or just specify URLs, or only URNs for Push-uploaded content - no hard and fast rule
 
 // In order to ensure that content is unique or for subselecting content with a common URI, qualifiers are used
+// Examples include a specific commit/branch wrt URIs that refer to a specific repo, and a URI that refers to a particular folder of a repo or a compressed payload
+// Qualifiers are also used to specify a checksum for content integrity
+
+// We use `resource_type` when it is not clear what is inferred from the URL and/or the qualifiers
+
+// There is no ordering to qualifiers
+message Qualifier {
+  // the key, e.g. "resource_type"
+  // Just make sure that the name is crystal clear, even though there's no effort made to distinguish "standard" and "nonstandard" qualfiliers
+  // https://tools.ietf.org/rfc6648 
+  string name = 1;
+  string value = 2; // the name will explain the value - so choose the name carefully
+}
 
