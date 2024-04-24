@@ -26,3 +26,6 @@ option obj_class_prefix = "RA";
 // The URN contains an agreed-upon key but doesn't mean anything else
 //
 // Service implementations can mix and match URLs and URNs, or just specify URLs, or only URNs for Push-uploaded content - no hard and fast rule
+
+// In order to ensure that content is unique or for subselecting content with a common URI, qualifiers are used
+
