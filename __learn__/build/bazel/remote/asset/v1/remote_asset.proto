@@ -42,3 +42,11 @@ message Qualifier {
   string value = 2; // the name will explain the value - so choose the name carefully
 }
 
+// Fetch service retrieves or resolves payloads that are referenced by URI and Qualifiers
+// A Digest for the content in [ContentAddressableStorage][build.bazel.remote.execution.v2.ContentAddressableStorage] is returned
+//
+// Like any service in the Remote Execution API, an error with [RetryInfo][google.rpc.RetryInfo] metadata may be returned - this sheds light on when the client should reattempt a Fetch call
+// Clients need to respect the instructions in the metadata
+service Fetch {
+  
+}
