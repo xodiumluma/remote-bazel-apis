@@ -48,5 +48,13 @@ message Qualifier {
 // Like any service in the Remote Execution API, an error with [RetryInfo][google.rpc.RetryInfo] metadata may be returned - this sheds light on when the client should reattempt a Fetch call
 // Clients need to respect the instructions in the metadata
 service Fetch {
-  
+  // Retrieve/resolve referenced payloads - expose them to the caller/other consumers in [ContentAddressableStorage][build.bazel.remote.execution.v2.ContentAddressableStorage]
+  //
+  // Servers *MAY* retrieve payloads that are not cached, based on supported URL structures
+  // Servers *SHOULD* make sure that the referenced payloads are available in the CAS when receiving the response
+  // If this feature is available, they should also make sure that they can be accessed within a reasonable time window
+  // If required, this time window should be widened
+  // If a client obtains a reference to unavailable payloads, it *MAY* resend the request with `oldest_content_accepted` set to a newer timestamp than the original try - to trigger a second retrieval
+  // Servers *CAN* cache retrieved payloads and reuse it for later retrievals, based on `oldest_content_accepted`
+  // Servers *CAN* accept the related [Push][build.bazel.remote.asset.v1.Push] API and enable content to be directly upserted for subsequent retrievals
 }
