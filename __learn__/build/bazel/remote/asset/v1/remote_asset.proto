@@ -57,4 +57,6 @@ service Fetch {
   // If a client obtains a reference to unavailable payloads, it *MAY* resend the request with `oldest_content_accepted` set to a newer timestamp than the original try - to trigger a second retrieval
   // Servers *CAN* cache retrieved payloads and reuse it for later retrievals, based on `oldest_content_accepted`
   // Servers *CAN* accept the related [Push][build.bazel.remote.asset.v1.Push] API and enable content to be directly upserted for subsequent retrievals
+  // Servers *HAVE TO* check that retrieved content matches all specified qualifiers (with exception of previously Push'd resources - in this case the server *CAN* trust the pushing client to accurately set the qualifiers and not require validation)
+  // If servers aren't implementing the [Push][build.bazel.remote.asset.v1.Push] API, they *HAVE TO* reject requests that have unsupported qualifiers
 }
