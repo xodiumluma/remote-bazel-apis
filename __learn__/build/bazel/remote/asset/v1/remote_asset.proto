@@ -71,4 +71,13 @@ service Fetch {
   // * `UNAVAILABLE` - something went wrong; client is encouraged to retry
   // * `INTERNAL` - something went wrong; client is encouraged to retry
   // * `DEADLINE_EXCEEDED` - the request timed out - client should retry for the time window specified in the request's `timeout` field
+  // 
+  // For unsupported qualifiers, the server *OUGHT TO* return a [BadRequest][google.rpc.BadRequest] payload
+  // Every unsupported qualifier should be referred to with a `FieldViolation` with a `qualifiers.name` field plus a `description` of `"{qualifier} not supported` reporting the name of the unsupported qualifier
+  rpc FetchBlob(FetchBlobRequest) returns (FetchBlobResponse) {
+    option (google.api.http) = { post: "/v1/{instance_name=**}/assets:fetchBlob" body: "*" };
+  }
+  rpc FetchDirectory(FetchDirectoryRequest) returns (FetchDirectoryResponse) {
+    option (google.api.http) = { post: "/v1/{instance_name=**}/assets:fetchDirectory" body: "*" };
+  }
 }
