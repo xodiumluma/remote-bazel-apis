@@ -62,4 +62,13 @@ service Fetch {
   // It's possible for servers to amend the payloads as part of the retrieval/Fetch process. 
   // - An archive retrieved by [FetchDirectory][build.bazel.remote.asset.v1.Fetch.FetchDirectory] can be decompressed
   // - A Git repo retrieved by [FetchBlob][build.bazel.remote.asset.v1.Fetch.FetchBlob] can be processed by `git-archive`
+  // 
+  // Errors resulting from the retrieval process will be returned as gRPC Status errors
+  // Errors not within the server's control will be returned as the payload of the `status` field in the response
+  // Errors can include:
+  // * `INVALID_ARGUMENT` - e.g. an unsupported qualifier
+  // * `RESOURCE_EXHAUSTED` - server's too busy - client can retry in a bit
+  // * `UNAVAILABLE` - something went wrong; client is encouraged to retry
+  // * `INTERNAL` - something went wrong; client is encouraged to retry
+  // * `DEADLINE_EXCEEDED` - the request timed out - client should retry for the time window specified in the request's `timeout` field
 }
